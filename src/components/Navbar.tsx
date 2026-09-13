@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight, Download, FileText } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Download } from 'lucide-react';
 import { PortfolioData } from '../types';
 import { downloadResumePdf } from '../utils/generatePdf';
 
@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ data, onOpenResume }) => {
       id="main-navbar"
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/90 backdrop-blur-md border-b border-stone-200/80 shadow-xs py-3'
+          ? 'bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-xs py-3'
           : 'bg-transparent py-4 sm:py-5'
       }`}
     >
@@ -57,12 +57,12 @@ export const Navbar: React.FC<NavbarProps> = ({ data, onOpenResume }) => {
         {/* Brand / Name */}
         <a
           href="#"
-          className="flex items-center gap-2.5 text-stone-900 font-bold text-base sm:text-lg tracking-tight group"
+          className="flex items-center gap-2.5 text-black font-bold text-base sm:text-lg tracking-tight group"
         >
           <div className="w-8 h-8 rounded-lg bg-emerald-100/80 border border-emerald-300/80 flex items-center justify-center text-emerald-800 font-mono text-sm font-bold group-hover:scale-105 transition-transform">
             {data.name.charAt(0) || 'P'}
           </div>
-          <span className="font-semibold tracking-tight text-stone-900 group-hover:text-emerald-700 transition-colors">
+          <span className="font-semibold tracking-tight text-black group-hover:text-emerald-700 transition-colors">
             {data.name}
           </span>
         </a>
@@ -73,18 +73,18 @@ export const Navbar: React.FC<NavbarProps> = ({ data, onOpenResume }) => {
             <button
               key={link.label}
               onClick={() => handleNavClick(link.href)}
-              className="text-xs sm:text-sm font-medium text-stone-600 hover:text-emerald-700 transition-colors cursor-pointer"
+              className="text-xs sm:text-sm font-medium text-gray-700 hover:text-black transition-colors cursor-pointer"
             >
               {link.label}
             </button>
           ))}
         </nav>
 
-        {/* Action Controls in Light Palette */}
+        {/* Action Controls in Minimal Palette */}
         <div className="hidden md:flex items-center gap-2.5">
           <button
             onClick={handleResumeClick}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-stone-800 bg-white border border-stone-300 hover:border-emerald-500 rounded-lg hover:text-emerald-800 transition-colors cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gray-800 bg-white border border-gray-300 hover:border-emerald-500 rounded-lg hover:text-emerald-800 transition-colors cursor-pointer shadow-xs"
             title="Download Soumadip Das Resume PDF directly"
           >
             <Download className="w-3.5 h-3.5 text-emerald-600" />
@@ -115,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({ data, onOpenResume }) => {
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-1.5 text-stone-600 hover:text-stone-900 rounded-lg focus:outline-none"
+            className="p-1.5 text-gray-600 hover:text-black rounded-lg focus:outline-none"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -125,19 +125,19 @@ export const Navbar: React.FC<NavbarProps> = ({ data, onOpenResume }) => {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-stone-200 px-5 py-4 space-y-3 shadow-lg">
+        <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-gray-200 px-5 py-4 space-y-3 shadow-lg">
           <div className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link.href)}
-                className="text-left py-2 text-sm font-medium text-stone-700 hover:text-emerald-700 transition-colors"
+                className="text-left py-2 text-sm font-medium text-gray-700 hover:text-black transition-colors"
               >
                 {link.label}
               </button>
             ))}
           </div>
-          <div className="pt-3 border-t border-stone-100 flex flex-col gap-2">
+          <div className="pt-3 border-t border-gray-100 flex flex-col gap-2">
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
@@ -155,7 +155,7 @@ export const Navbar: React.FC<NavbarProps> = ({ data, onOpenResume }) => {
                 setMobileMenuOpen(false);
                 handleNavClick('#contact');
               }}
-              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-medium text-stone-800 bg-stone-100 hover:bg-stone-200 rounded-lg"
+              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-lg"
             >
               <span>Get in Touch</span>
               <ArrowUpRight className="w-3.5 h-3.5 text-emerald-600" />

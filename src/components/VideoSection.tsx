@@ -258,7 +258,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
   };
 
   return (
-    <section id="video-reel" className="py-20 px-4 sm:px-6 bg-stone-100/70 border-t border-stone-200/80">
+    <section id="video-reel" className="py-20 px-4 sm:px-6 bg-white border-t border-gray-200">
       <div className="max-w-5xl mx-auto">
         {/* Section Heading */}
         <div className="mb-8">
@@ -266,10 +266,10 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
             <Film className="w-3.5 h-3.5" />
             <span>Interactive Profile Showreel</span>
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight mt-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-black tracking-tight mt-2">
             {showcase.title || 'Profile Video & Work in Motion'}
           </h2>
-          <p className="text-sm text-stone-600 mt-1.5 max-w-xl">
+          <p className="text-sm text-gray-600 mt-1.5 max-w-xl">
             {showcase.subtitle || 'Synchronized presentation highlighting hackathon victory, academic records, and research.'}
           </p>
         </div>
@@ -281,10 +281,10 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="relative rounded-3xl overflow-hidden bg-stone-950 shadow-2xl border border-stone-800"
+          className="relative rounded-3xl overflow-hidden bg-black shadow-2xl border border-gray-800"
         >
           {/* Main Video Viewport (16:9) */}
-          <div className="relative aspect-video w-full overflow-hidden bg-radial from-stone-900 to-black select-none">
+          <div className="relative aspect-video w-full overflow-hidden bg-radial from-gray-900 to-black select-none">
             
             {/* If External Raw Video Mode is selected */}
             {!isInteractiveMode ? (
@@ -331,11 +331,11 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                           alt={data.name}
                           className="w-full h-full object-cover rounded-full"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/profile.jpg';
+                            (e.target as HTMLImageElement).src = '/soumadip.png';
                           }}
                         />
                       </div>
-                      <span className="absolute bottom-1 right-1 bg-amber-400 text-stone-950 font-mono text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
+                      <span className="absolute bottom-1 right-1 bg-amber-400 text-black font-mono text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
                         WINNER 🏆
                       </span>
                     </div>
@@ -348,7 +348,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                       <h3 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
                         {data.name}
                       </h3>
-                      <p className="text-xs sm:text-sm text-stone-300 max-w-lg leading-relaxed">
+                      <p className="text-xs sm:text-sm text-gray-300 max-w-lg leading-relaxed">
                         Information Technology scholar at Haldia Institute of Technology, Tejas India Hackathon Winner, and Research Assistant at NSRI.
                       </p>
                       <div className="pt-2 flex flex-wrap gap-2 justify-center sm:justify-start">
@@ -378,39 +378,39 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                         <GraduationCap className="w-4 h-4" />
                         <span>Academic Distinction Records</span>
                       </div>
-                      <span className="text-[11px] font-mono text-stone-400">Consistent Top Rank</span>
+                      <span className="text-[11px] font-mono text-gray-400">Consistent Top Rank</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                      <div className="p-4 rounded-2xl bg-stone-900/80 border border-emerald-500/40 shadow-lg flex flex-col justify-between">
+                      <div className="p-4 rounded-2xl bg-gray-900/80 border border-emerald-500/40 shadow-lg flex flex-col justify-between">
                         <div>
                           <span className="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-400 block">9.16</span>
                           <span className="text-xs font-bold text-white mt-1 block">B.Tech IT</span>
-                          <span className="text-[11px] text-stone-400">Haldia Inst. of Tech</span>
+                          <span className="text-[11px] text-gray-400">Haldia Inst. of Tech</span>
                         </div>
                         <span className="text-[10px] font-mono text-emerald-300 mt-2 bg-emerald-950/60 py-0.5 px-1.5 rounded self-start">
                           1st Yr: 9.15 | 2nd Yr: 9.16
                         </span>
                       </div>
 
-                      <div className="p-4 rounded-2xl bg-stone-900/80 border border-stone-700 shadow-lg flex flex-col justify-between">
+                      <div className="p-4 rounded-2xl bg-gray-900/80 border border-gray-700 shadow-lg flex flex-col justify-between">
                         <div>
                           <span className="text-2xl sm:text-3xl font-extrabold font-mono text-white block">93%</span>
                           <span className="text-xs font-bold text-white mt-1 block">Higher Secondary (XII)</span>
-                          <span className="text-[11px] text-stone-400">Science Stream Distinction</span>
+                          <span className="text-[11px] text-gray-400">Science Stream Distinction</span>
                         </div>
-                        <span className="text-[10px] font-mono text-stone-300 mt-2 bg-stone-800 py-0.5 px-1.5 rounded self-start">
+                        <span className="text-[10px] font-mono text-gray-300 mt-2 bg-gray-800 py-0.5 px-1.5 rounded self-start">
                           WBCHSE Board
                         </span>
                       </div>
 
-                      <div className="p-4 rounded-2xl bg-stone-900/80 border border-stone-700 shadow-lg flex flex-col justify-between">
+                      <div className="p-4 rounded-2xl bg-gray-900/80 border border-gray-700 shadow-lg flex flex-col justify-between">
                         <div>
                           <span className="text-2xl sm:text-3xl font-extrabold font-mono text-white block">92%</span>
                           <span className="text-xs font-bold text-white mt-1 block">Secondary (Class X)</span>
-                          <span className="text-[11px] text-stone-400">High Academic Distinction</span>
+                          <span className="text-[11px] text-gray-400">High Academic Distinction</span>
                         </div>
-                        <span className="text-[10px] font-mono text-stone-300 mt-2 bg-stone-800 py-0.5 px-1.5 rounded self-start">
+                        <span className="text-[10px] font-mono text-gray-300 mt-2 bg-gray-800 py-0.5 px-1.5 rounded self-start">
                           WBBSE Board
                         </span>
                       </div>
@@ -428,7 +428,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                     transition={{ duration: 0.4 }}
                     className="max-w-3xl w-full z-10"
                   >
-                    <div className="p-5 sm:p-6 rounded-2xl bg-stone-900/90 border border-emerald-500/50 shadow-2xl">
+                    <div className="p-5 sm:p-6 rounded-2xl bg-gray-900/90 border border-emerald-500/50 shadow-2xl">
                       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs font-bold border border-amber-500/30">
                           <Award className="w-3.5 h-3.5 text-amber-400" />
@@ -441,26 +441,26 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                         UPI Fraud Detection & Prevention System (SecureFlow AI)
                       </h4>
 
-                      <p className="text-xs sm:text-sm text-stone-300 leading-relaxed mb-4">
+                      <p className="text-xs sm:text-sm text-gray-300 leading-relaxed mb-4">
                         Real-time transaction monitoring platform built with Python and SQLite/SQL. Analyzes anomalous patterns, velocity spikes, and fraud alerts across live web dashboards.
                       </p>
 
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
-                        <div className="p-2 rounded-xl bg-stone-800/80 border border-stone-700">
+                        <div className="p-2 rounded-xl bg-gray-800/80 border border-gray-700">
                           <span className="font-mono text-emerald-400 font-bold block">&lt; 85ms</span>
-                          <span className="text-[10px] text-stone-400">Inference Latency</span>
+                          <span className="text-[10px] text-gray-400">Inference Latency</span>
                         </div>
-                        <div className="p-2 rounded-xl bg-stone-800/80 border border-stone-700">
+                        <div className="p-2 rounded-xl bg-gray-800/80 border border-gray-700">
                           <span className="font-mono text-emerald-400 font-bold block">Python + SQL</span>
-                          <span className="text-[10px] text-stone-400">Engine Backend</span>
+                          <span className="text-[10px] text-gray-400">Engine Backend</span>
                         </div>
-                        <div className="p-2 rounded-xl bg-stone-800/80 border border-stone-700">
+                        <div className="p-2 rounded-xl bg-gray-800/80 border border-gray-700">
                           <span className="font-mono text-emerald-400 font-bold block">FastAPI</span>
-                          <span className="text-[10px] text-stone-400">Microservice Stack</span>
+                          <span className="text-[10px] text-gray-400">Microservice Stack</span>
                         </div>
-                        <div className="p-2 rounded-xl bg-stone-800/80 border border-stone-700">
+                        <div className="p-2 rounded-xl bg-gray-800/80 border border-gray-700">
                           <span className="font-mono text-emerald-400 font-bold block">Telemetry</span>
-                          <span className="text-[10px] text-stone-400">Fraud Dashboards</span>
+                          <span className="text-[10px] text-gray-400">Fraud Dashboards</span>
                         </div>
                       </div>
                     </div>
@@ -482,47 +482,47 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                         <Award className="w-4 h-4" />
                         <span>Professional Roles & Industry Impact</span>
                       </div>
-                      <span className="text-[11px] font-mono text-stone-400">11 Career Experiences</span>
+                      <span className="text-[11px] font-mono text-gray-400">11 Career Experiences</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div className="p-3.5 rounded-xl bg-stone-900/85 border border-stone-700 flex items-start gap-3">
+                      <div className="p-3.5 rounded-xl bg-gray-900/85 border border-gray-700 flex items-start gap-3">
                         <div className="w-8 h-8 rounded-lg bg-emerald-950 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-800">
                           RI
                         </div>
                         <div>
                           <h5 className="text-xs font-bold text-white">Research Assistant @ NSRI</h5>
-                          <p className="text-[11px] text-stone-400 mt-0.5">Applied computing, documentation & algorithmic problem solving.</p>
+                          <p className="text-[11px] text-gray-400 mt-0.5">Applied computing, documentation & algorithmic problem solving.</p>
                         </div>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-stone-900/85 border border-stone-700 flex items-start gap-3">
+                      <div className="p-3.5 rounded-xl bg-gray-900/85 border border-gray-700 flex items-start gap-3">
                         <div className="w-8 h-8 rounded-lg bg-emerald-950 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-800">
                           M1
                         </div>
                         <div>
                           <h5 className="text-xs font-bold text-white">Full Stack Engineer @ micro1</h5>
-                          <p className="text-[11px] text-stone-400 mt-0.5">Freelance engineering delivering performant architectures.</p>
+                          <p className="text-[11px] text-gray-400 mt-0.5">Freelance engineering delivering performant architectures.</p>
                         </div>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-stone-900/85 border border-stone-700 flex items-start gap-3">
+                      <div className="p-3.5 rounded-xl bg-gray-900/85 border border-gray-700 flex items-start gap-3">
                         <div className="w-8 h-8 rounded-lg bg-emerald-950 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-800">
                           HS
                         </div>
                         <div>
                           <h5 className="text-xs font-bold text-white">AI Data Trainer @ Handshake</h5>
-                          <p className="text-[11px] text-stone-400 mt-0.5">Model evaluation, prompt refinement & certification standards.</p>
+                          <p className="text-[11px] text-gray-400 mt-0.5">Model evaluation, prompt refinement & certification standards.</p>
                         </div>
                       </div>
 
-                      <div className="p-3.5 rounded-xl bg-stone-900/85 border border-stone-700 flex items-start gap-3">
+                      <div className="p-3.5 rounded-xl bg-gray-900/85 border border-gray-700 flex items-start gap-3">
                         <div className="w-8 h-8 rounded-lg bg-emerald-950 text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0 border border-emerald-800">
                           OA
                         </div>
                         <div>
                           <h5 className="text-xs font-bold text-white">AI Specialist @ Outlier AI</h5>
-                          <p className="text-[11px] text-stone-400 mt-0.5">Reinforcement learning (RLHF) and reasoning alignment.</p>
+                          <p className="text-[11px] text-gray-400 mt-0.5">Reinforcement learning (RLHF) and reasoning alignment.</p>
                         </div>
                       </div>
                     </div>
@@ -552,7 +552,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                       {['Python', 'SQL / SQLite', 'Java', 'C/C++', 'Generative AI', 'Power BI', 'FastAPI', 'DSA'].map((skill) => (
                         <span
                           key={skill}
-                          className="px-3 py-1 rounded-xl bg-stone-900 border border-stone-700 text-xs font-mono text-stone-200"
+                          className="px-3 py-1 rounded-xl bg-gray-900 border border-gray-700 text-xs font-mono text-gray-200"
                         >
                           {skill}
                         </span>
@@ -562,7 +562,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                     <div className="pt-3 flex flex-wrap justify-center items-center gap-3">
                       <a
                         href={`mailto:${data.email}`}
-                        className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-bold text-xs shadow-lg transition-colors cursor-pointer"
+                        className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs shadow-lg transition-colors cursor-pointer"
                       >
                         Email: {data.email}
                       </a>
@@ -570,7 +570,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                         href={data.social.linkedin || '#'}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-semibold text-xs border border-stone-600 transition-colors"
+                        className="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-semibold text-xs border border-gray-600 transition-colors"
                       >
                         LinkedIn Profile
                       </a>
@@ -586,11 +586,11 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 onClick={handleTogglePlay}
-                className="absolute inset-0 flex items-center justify-center bg-stone-950/40 backdrop-blur-[2px] cursor-pointer z-30"
+                className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] cursor-pointer z-30"
               >
                 <div className="relative flex items-center justify-center">
                   <span className="animate-ping absolute inline-flex h-20 w-20 rounded-full bg-white/30 opacity-75" />
-                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 text-stone-900 flex items-center justify-center shadow-2xl hover:scale-105 transition-transform">
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/95 text-black flex items-center justify-center shadow-2xl hover:scale-105 transition-transform">
                     <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-current ml-1 text-emerald-700" />
                   </div>
                 </div>
@@ -600,7 +600,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
             {/* Bottom Floating Subtitle Bar showing current voice text */}
             {isPlaying && isInteractiveMode && !isVoiceMuted && (
               <div className="absolute bottom-16 left-6 right-6 z-20 pointer-events-none flex justify-center">
-                <p className="text-xs sm:text-sm font-medium text-stone-100 bg-stone-950/85 px-4 py-1.5 rounded-full border border-stone-800/80 shadow-lg text-center backdrop-blur-md max-w-2xl animate-fade-in">
+                <p className="text-xs sm:text-sm font-medium text-gray-100 bg-black/85 px-4 py-1.5 rounded-full border border-gray-800/80 shadow-lg text-center backdrop-blur-md max-w-2xl animate-fade-in">
                   "{CHAPTERS[activeScene]?.speechText}"
                 </p>
               </div>
@@ -608,15 +608,15 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
           </div>
 
           {/* Video Control Bar */}
-          <div className="p-3 sm:p-4 bg-stone-900 border-t border-stone-800 text-stone-200 flex flex-col gap-3">
+          <div className="p-3 sm:p-4 bg-gray-900 border-t border-gray-800 text-gray-200 flex flex-col gap-3">
             {/* Timeline scrubber */}
             <div className="flex items-center gap-3">
-              <span className="text-[11px] font-mono text-stone-400 w-10">
+              <span className="text-[11px] font-mono text-gray-400 w-10">
                 {formatTime(currentTime)}
               </span>
 
               <div
-                className="relative flex-1 h-2.5 bg-stone-800 rounded-full overflow-hidden cursor-pointer group"
+                className="relative flex-1 h-2.5 bg-gray-800 rounded-full overflow-hidden cursor-pointer group"
                 onClick={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   const pos = (e.clientX - rect.left) / rect.width;
@@ -627,7 +627,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                 {CHAPTERS.map((ch, idx) => (
                   <div
                     key={idx}
-                    className="absolute top-0 bottom-0 w-0.5 bg-stone-950 z-10"
+                    className="absolute top-0 bottom-0 w-0.5 bg-black z-10"
                     style={{ left: `${(ch.startTime / TOTAL_DURATION) * 100}%` }}
                   />
                 ))}
@@ -639,7 +639,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                 />
               </div>
 
-              <span className="text-[11px] font-mono text-stone-400 w-10 text-right">
+              <span className="text-[11px] font-mono text-gray-400 w-10 text-right">
                 {formatTime(TOTAL_DURATION)}
               </span>
             </div>
@@ -655,7 +655,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                     className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all whitespace-nowrap cursor-pointer ${
                       isActive
                         ? 'bg-emerald-600 text-white font-bold shadow-xs ring-1 ring-emerald-400/50'
-                        : 'bg-stone-800/80 text-stone-400 hover:text-stone-200 hover:bg-stone-750'
+                        : 'bg-gray-800/80 text-gray-400 hover:text-gray-200 hover:bg-gray-700'
                     }`}
                   >
                     {ch.label}
@@ -681,7 +681,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
 
                 <button
                   onClick={handleReset}
-                  className="p-2 rounded-xl text-stone-400 hover:text-stone-200 hover:bg-stone-800 transition-colors cursor-pointer"
+                  className="p-2 rounded-xl text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors cursor-pointer"
                   title="Replay from start"
                 >
                   <RotateCcw className="w-4 h-4" />
@@ -691,16 +691,16 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                   onClick={toggleMute}
                   className={`p-2 rounded-xl transition-colors cursor-pointer ${
                     isVoiceMuted
-                      ? 'text-red-400 hover:bg-stone-800'
-                      : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800'
+                      ? 'text-red-400 hover:bg-gray-800'
+                      : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'
                   }`}
                   title={isVoiceMuted ? 'Unmute Male Narration' : 'Mute Voice Narration'}
                 >
                   {isVoiceMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
 
-                <div className="hidden sm:flex items-center gap-1.5 bg-stone-800/80 px-2.5 py-1 rounded-lg text-xs font-mono text-stone-300 border border-stone-750">
-                  <span className="text-[10px] text-stone-400 uppercase">Voice Sync</span>
+                <div className="hidden sm:flex items-center gap-1.5 bg-gray-800/80 px-2.5 py-1 rounded-lg text-xs font-mono text-gray-300 border border-gray-700">
+                  <span className="text-[10px] text-gray-400 uppercase">Voice Sync</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 </div>
               </div>
@@ -709,7 +709,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                 {/* Playback speed selector */}
                 <button
                   onClick={() => setPlaybackSpeed(playbackSpeed === 1 ? 1.25 : playbackSpeed === 1.25 ? 0.85 : 1)}
-                  className="px-2.5 py-1 rounded-lg bg-stone-800 hover:bg-stone-750 text-[11px] font-mono text-stone-300 transition-colors cursor-pointer border border-stone-700"
+                  className="px-2.5 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-[11px] font-mono text-gray-300 transition-colors cursor-pointer border border-gray-700"
                   title="Playback Speed"
                 >
                   {playbackSpeed}x
@@ -718,7 +718,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                 {/* Fullscreen button */}
                 <button
                   onClick={handleFullscreen}
-                  className="p-2 rounded-xl text-stone-400 hover:text-stone-200 hover:bg-stone-800 transition-colors cursor-pointer"
+                  className="p-2 rounded-xl text-gray-400 hover:text-gray-200 hover:bg-gray-800 transition-colors cursor-pointer"
                   title="Fullscreen"
                 >
                   <Maximize2 className="w-4 h-4" />

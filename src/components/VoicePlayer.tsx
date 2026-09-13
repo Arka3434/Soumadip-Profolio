@@ -203,7 +203,7 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
   return (
     <>
       {/* Primary Read-Only Voice Player Bar */}
-      <div className="inline-flex flex-wrap items-center gap-2 p-1.5 sm:p-2 rounded-2xl bg-white/95 border border-stone-200/90 shadow-xs backdrop-blur-md">
+      <div className="inline-flex flex-wrap items-center gap-2 p-1.5 sm:p-2 rounded-2xl bg-white/95 border border-gray-200/90 shadow-xs backdrop-blur-md">
         {/* Play/Pause Button */}
         <motion.button
           whileTap={{ scale: 0.96 }}
@@ -211,7 +211,7 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs ${
             isPlaying && !isPaused
               ? 'bg-emerald-600 text-white shadow-emerald-200'
-              : 'bg-stone-900 hover:bg-stone-800 text-white'
+              : 'bg-gray-900 hover:bg-gray-800 text-white'
           }`}
           title={isPlaying && !isPaused ? 'Pause Voice Intro' : 'Listen to Soumadip’s Voice Intro'}
         >
@@ -251,7 +251,7 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
                   : { duration: 0.3 }
               }
               className={`w-1 rounded-full transition-colors ${
-                isPlaying && !isPaused ? 'bg-emerald-600' : 'bg-stone-300'
+                isPlaying && !isPaused ? 'bg-emerald-600' : 'bg-gray-300'
               }`}
             />
           ))}
@@ -265,7 +265,7 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
               <span>Authentic Voice</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-600 text-[10px] font-medium border border-stone-200">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-medium border border-gray-200">
               <Radio className="w-2.5 h-2.5 text-emerald-600 animate-pulse" />
               <span>Voice Intro</span>
             </span>
@@ -275,7 +275,7 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
         {/* Transcript Toggle */}
         <button
           onClick={() => setShowTranscript(!showTranscript)}
-          className="p-1.5 text-stone-400 hover:text-stone-800 rounded-lg transition-colors cursor-pointer"
+          className="p-1.5 text-gray-400 hover:text-gray-800 rounded-lg transition-colors cursor-pointer"
           title={showTranscript ? "Hide Transcript" : "View Live Spoken Transcript"}
         >
           {showTranscript ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -283,17 +283,17 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
 
         {/* Playback Controls (Speed & Reset) */}
         {isPlaying && (
-          <div className="flex items-center gap-1 border-l border-stone-200 pl-1.5">
+          <div className="flex items-center gap-1 border-l border-gray-200 pl-1.5">
             <button
               onClick={handleSpeedToggle}
-              className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold text-stone-600 hover:bg-stone-100 cursor-pointer"
+              className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold text-gray-600 hover:bg-gray-100 cursor-pointer"
               title="Toggle playback speed"
             >
               {rate}x
             </button>
             <button
               onClick={handleStop}
-              className="p-1 text-stone-400 hover:text-stone-700 hover:bg-stone-100 rounded cursor-pointer"
+              className="p-1 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded cursor-pointer"
               title="Stop voice"
             >
               <RotateCcw className="w-3 h-3" />
@@ -309,27 +309,27 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="w-full mt-2 p-4 rounded-2xl bg-white border border-stone-200 shadow-sm text-xs space-y-2 overflow-hidden"
+            className="w-full mt-2 p-4 rounded-2xl bg-white border border-gray-200 shadow-sm text-xs space-y-2 overflow-hidden"
           >
-            <div className="flex items-center justify-between border-b border-stone-100 pb-2">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-2">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-[10px] uppercase tracking-wider text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">
                   Spoken Bio Transcript
                 </span>
-                <span className="text-stone-400 text-[11px]">
+                <span className="text-gray-400 text-[11px]">
                   Soumadip Das
                 </span>
               </div>
             </div>
 
-            <div className="space-y-1.5 pt-1 text-stone-600 leading-relaxed max-h-48 overflow-y-auto pr-1">
+            <div className="space-y-1.5 pt-1 text-gray-600 leading-relaxed max-h-48 overflow-y-auto pr-1">
               {REFERENCE_SENTENCES.map((sentence, idx) => (
                 <p
                   key={idx}
                   className={`p-2 rounded-xl transition-all ${
                     isPlaying && activeSentenceIndex === idx
                       ? 'bg-emerald-50 text-emerald-950 font-medium border-l-2 border-emerald-600 shadow-2xs'
-                      : 'hover:bg-stone-50'
+                      : 'hover:bg-gray-50'
                   }`}
                 >
                   {sentence}

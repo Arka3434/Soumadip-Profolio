@@ -16,17 +16,17 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
 
 export const Skills: React.FC<SkillsProps> = ({ data }) => {
   return (
-    <section id="skills" className="py-20 px-4 sm:px-6 border-t border-stone-200/80 bg-stone-50/70">
+    <section id="skills" className="py-20 px-4 sm:px-6 border-t border-gray-200 bg-white">
       <div className="max-w-5xl mx-auto">
         {/* Section Heading */}
         <div className="mb-12">
           <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-100/80 px-2.5 py-1 rounded-md">
             02 // Technical Arsenal
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight mt-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-black tracking-tight mt-2">
             Skills & Tech Stack
           </h2>
-          <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-gray-600 mt-1 max-w-xl">
             Core competencies across software engineering, machine learning pipelines, relational databases, and quantitative analysis.
           </p>
         </div>
@@ -41,11 +41,11 @@ export const Skills: React.FC<SkillsProps> = ({ data }) => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: idx * 0.1 }}
               whileHover={{ y: -3 }}
-              className="p-6 rounded-2xl bg-white border border-stone-200/90 shadow-xs hover:border-emerald-300/80 transition-all"
+              className="p-6 rounded-2xl bg-white border border-gray-200 shadow-xs hover:border-gray-300 transition-all"
             >
               <div className="flex items-center gap-2.5 mb-4">
                 {CATEGORY_ICONS[group.name] || <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />}
-                <h3 className="font-bold text-stone-900 text-base tracking-tight">
+                <h3 className="font-bold text-black text-base tracking-tight">
                   {group.name}
                 </h3>
               </div>
@@ -54,7 +54,7 @@ export const Skills: React.FC<SkillsProps> = ({ data }) => {
                 {group.skills.map((skill, sIdx) => (
                   <span
                     key={sIdx}
-                    className="px-3 py-1.5 rounded-xl bg-stone-100 text-stone-700 border border-stone-200/80 text-xs font-mono hover:bg-emerald-50 hover:text-emerald-800 hover:border-emerald-200 transition-colors cursor-default"
+                    className="px-3 py-1.5 rounded-xl bg-gray-100 text-gray-700 border border-gray-200 text-xs font-mono hover:bg-emerald-50 hover:text-emerald-800 hover:border-emerald-200 transition-colors cursor-default"
                   >
                     {skill}
                   </span>

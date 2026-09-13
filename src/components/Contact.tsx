@@ -164,9 +164,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err: any) {
       console.warn('FormSubmit AJAX dispatch notice:', err);
-      // Even if network or CORS prevents the AJAX call, save current message and provide immediate direct options
       setLastSubmittedMessage({ ...formData });
-      // If network fails (e.g. adblocker), notify and open direct fallback
       setSubmitError(
         'Direct server delivery was delayed or intercepted by network rules. You can deliver this note directly via WhatsApp or your Email client below with 1 click!'
       );
@@ -181,17 +179,17 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
   };
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 border-t border-stone-200/80 bg-white">
+    <section id="contact" className="py-20 px-4 sm:px-6 border-t border-gray-200 bg-white">
       <div className="max-w-5xl mx-auto">
         {/* Section Heading */}
         <div className="mb-12">
           <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
             05 // Connect
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight mt-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-black tracking-tight mt-2">
             Let's Build Something Together
           </h2>
-          <p className="text-sm text-stone-600 mt-1.5 max-w-xl">
+          <p className="text-sm text-gray-600 mt-1.5 max-w-xl">
             Have a project in mind, an engineering role, or a collaboration? Type below or use the <strong>Voice Typing</strong> feature to dictate your message!
           </p>
         </div>
@@ -199,7 +197,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Direct Contact Info Cards */}
           <div className="lg:col-span-5 space-y-4">
-            {/* WhatsApp Direct Card (Highest priority for instant messaging) */}
+            {/* WhatsApp Direct Card */}
             <div className="p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200 shadow-xs flex items-start justify-between gap-4">
               <div className="flex items-start gap-3.5">
                 <div className="p-2.5 rounded-xl bg-emerald-600 text-white shadow-xs">
@@ -213,11 +211,11 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                     href={`https://wa.me/${whatsappNumber}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm font-bold text-stone-900 hover:text-emerald-700 block mt-0.5"
+                    className="text-sm font-bold text-black hover:text-emerald-700 block mt-0.5"
                   >
                     +91 7547949426
                   </a>
-                  <p className="text-xs text-stone-600 mt-0.5">
+                  <p className="text-xs text-gray-600 mt-0.5">
                     Fastest response for urgent inquiries & projects.
                   </p>
                 </div>
@@ -234,20 +232,20 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
             </div>
 
             {/* Email Card */}
-            <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200/90 shadow-xs flex items-start justify-between gap-4">
+            <div className="p-5 rounded-2xl bg-gray-50 border border-gray-200 shadow-xs flex items-start justify-between gap-4">
               <div className="flex items-start gap-3.5">
-                <div className="p-2.5 rounded-xl bg-stone-200/90 text-stone-800">
+                <div className="p-2.5 rounded-xl bg-gray-200/90 text-gray-800">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-xs font-mono text-stone-400">Direct Email</span>
+                  <span className="text-xs font-mono text-gray-400">Direct Email</span>
                   <a
                     href={`mailto:${recipientEmail}`}
-                    className="text-sm font-bold text-stone-900 hover:text-emerald-700 block mt-0.5 break-all"
+                    className="text-sm font-bold text-black hover:text-emerald-700 block mt-0.5 break-all"
                   >
                     {recipientEmail}
                   </a>
-                  <p className="text-xs text-stone-500 mt-0.5">
+                  <p className="text-xs text-gray-500 mt-0.5">
                     For proposals, formal inquiries & documentation.
                   </p>
                 </div>
@@ -255,7 +253,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
               <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   onClick={handleCopyEmail}
-                  className="p-2 text-stone-500 hover:text-emerald-700 hover:bg-white rounded-xl transition-colors cursor-pointer border border-stone-200"
+                  className="p-2 text-gray-500 hover:text-emerald-700 hover:bg-white rounded-xl transition-colors cursor-pointer border border-gray-200"
                   title="Copy Email address"
                 >
                   {copiedEmail ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
@@ -264,20 +262,20 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
             </div>
 
             {/* Phone Number Card */}
-            <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200/90 shadow-xs flex items-start justify-between gap-4">
+            <div className="p-5 rounded-2xl bg-gray-50 border border-gray-200 shadow-xs flex items-start justify-between gap-4">
               <div className="flex items-start gap-3.5">
-                <div className="p-2.5 rounded-xl bg-stone-200/90 text-stone-800">
+                <div className="p-2.5 rounded-xl bg-gray-200/90 text-gray-800">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-xs font-mono text-stone-400">Direct Phone</span>
+                  <span className="text-xs font-mono text-gray-400">Direct Phone</span>
                   <a
                     href={`tel:${rawPhoneNumber}`}
-                    className="text-sm font-bold text-stone-900 hover:text-emerald-700 block mt-0.5"
+                    className="text-sm font-bold text-black hover:text-emerald-700 block mt-0.5"
                   >
                     {data.phone || '+91-7547949426'}
                   </a>
-                  <p className="text-xs text-stone-500 mt-0.5">
+                  <p className="text-xs text-gray-500 mt-0.5">
                     Available for scheduled audio calls & interviews.
                   </p>
                 </div>
@@ -285,14 +283,14 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
               <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   onClick={handleCopyPhone}
-                  className="p-2 text-stone-500 hover:text-emerald-700 hover:bg-white rounded-xl transition-colors cursor-pointer border border-stone-200"
+                  className="p-2 text-gray-500 hover:text-emerald-700 hover:bg-white rounded-xl transition-colors cursor-pointer border border-gray-200"
                   title="Copy Phone number"
                 >
                   {copiedPhone ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                 </button>
                 <a
                   href={`tel:${rawPhoneNumber}`}
-                  className="px-3 py-1.5 text-xs font-semibold text-stone-700 bg-white border border-stone-200 hover:border-emerald-300 rounded-xl transition-colors cursor-pointer"
+                  className="px-3 py-1.5 text-xs font-semibold text-gray-700 bg-white border border-gray-200 hover:border-emerald-300 rounded-xl transition-colors cursor-pointer"
                 >
                   Call
                 </a>
@@ -300,16 +298,16 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
             </div>
 
             {/* Location Card */}
-            <div className="p-5 rounded-2xl bg-stone-50 border border-stone-200/90 shadow-xs flex items-start gap-3.5">
-              <div className="p-2.5 rounded-xl bg-stone-200/80 text-stone-700">
+            <div className="p-5 rounded-2xl bg-gray-50 border border-gray-200 shadow-xs flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl bg-gray-200/80 text-gray-700">
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-xs font-mono text-stone-400">Location & Timezone</span>
-                <p className="text-sm font-semibold text-stone-900 mt-0.5">
+                <span className="text-xs font-mono text-gray-400">Location & Timezone</span>
+                <p className="text-sm font-semibold text-black mt-0.5">
                   {data.location || 'Haldia, West Bengal, India (IST / UTC+5:30)'}
                 </p>
-                <p className="text-xs text-stone-500 mt-0.5">
+                <p className="text-xs text-gray-500 mt-0.5">
                   Open to remote roles, hybrid opportunities & global relocation.
                 </p>
               </div>
@@ -321,15 +319,15 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>Response Time Guarantee</span>
               </div>
-              <p className="text-xs text-stone-600 leading-relaxed">
+              <p className="text-xs text-gray-600 leading-relaxed">
                 Messages sent via this portal are dispatched directly to Soumadip Das's private inbox. You will receive an acknowledgment within 24 hours.
               </p>
             </div>
           </div>
 
-          {/* Contact Form with Multi-Channel Delivery */}
+          {/* Contact Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-3xl bg-stone-50 border border-stone-200 shadow-sm">
+            <div className="p-6 sm:p-8 rounded-3xl bg-gray-50 border border-gray-200 shadow-sm">
               {isSubmitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -340,22 +338,22 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="text-xl font-bold text-stone-900">
+                    <h3 className="text-xl font-bold text-black">
                       Message Dispatched to Soumadip Das!
                     </h3>
-                    <p className="text-sm text-stone-600 max-w-md">
+                    <p className="text-sm text-gray-600 max-w-md">
                       Your note has been transmitted to <strong>{recipientEmail}</strong>. A copy was saved and sent.
                     </p>
                   </div>
 
                   {lastSubmittedMessage && (
-                    <div className="w-full max-w-md p-4 rounded-2xl bg-white border border-stone-200 text-left text-xs space-y-1.5 shadow-2xs">
-                      <div className="text-stone-400 font-mono uppercase text-[10px]">Submitted Note Details:</div>
-                      <p className="text-stone-800"><strong>From:</strong> {lastSubmittedMessage.name} ({lastSubmittedMessage.email})</p>
+                    <div className="w-full max-w-md p-4 rounded-2xl bg-white border border-gray-200 text-left text-xs space-y-1.5 shadow-2xs">
+                      <div className="text-gray-400 font-mono uppercase text-[10px]">Submitted Note Details:</div>
+                      <p className="text-gray-800"><strong>From:</strong> {lastSubmittedMessage.name} ({lastSubmittedMessage.email})</p>
                       {lastSubmittedMessage.subject && (
-                        <p className="text-stone-800"><strong>Subject:</strong> {lastSubmittedMessage.subject}</p>
+                        <p className="text-gray-800"><strong>Subject:</strong> {lastSubmittedMessage.subject}</p>
                       )}
-                      <p className="text-stone-600 italic line-clamp-3">"{lastSubmittedMessage.message}"</p>
+                      <p className="text-gray-600 italic line-clamp-3">"{lastSubmittedMessage.message}"</p>
                     </div>
                   )}
 
@@ -372,7 +370,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
 
                     <button
                       onClick={resetForm}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-stone-200 hover:border-stone-300 text-stone-700 text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-gray-700 text-xs font-semibold shadow-2xs transition-colors cursor-pointer"
                     >
                       <RotateCcw className="w-3.5 h-3.5" />
                       <span>Send Another Note</span>
@@ -400,7 +398,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                         </a>
                         <a
                           href={getMailtoUrl()}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-stone-300 text-stone-800 font-semibold text-xs hover:bg-stone-100"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-gray-300 text-gray-800 font-semibold text-xs hover:bg-gray-100"
                         >
                           <Mail className="w-3.5 h-3.5" />
                           <span>Open in Email App</span>
@@ -411,7 +409,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-mono text-stone-500 mb-1.5">
+                      <label className="block text-xs font-mono text-gray-700 mb-1.5">
                         Your Name *
                       </label>
                       <input
@@ -420,11 +418,11 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Sarah Connor"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-xs"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder:text-gray-500 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-xs"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-mono text-stone-500 mb-1.5">
+                      <label className="block text-xs font-mono text-gray-700 mb-1.5">
                         Your Email *
                       </label>
                       <input
@@ -433,13 +431,13 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="sarah@example.com"
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-xs"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder:text-gray-500 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-xs"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono text-stone-500 mb-1.5">
+                    <label className="block text-xs font-mono text-gray-700 mb-1.5">
                       Subject / Topic
                     </label>
                     <input
@@ -447,14 +445,14 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       placeholder="e.g. Project Opportunity / Hackathon Collaboration / Job Offer"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white border border-gray-300 text-gray-900 placeholder:text-gray-500 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-xs"
                     />
                   </div>
 
                   {/* Message Field with Voice Typing Feature */}
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <label className="text-xs font-mono text-stone-500">
+                      <label className="text-xs font-mono text-gray-700">
                         Message *
                       </label>
 
@@ -465,7 +463,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer shadow-xs ${
                           isListening
                             ? 'bg-red-500 text-white animate-pulse'
-                            : 'bg-white hover:bg-stone-100 text-stone-700 border border-stone-200'
+                            : 'bg-white hover:bg-gray-100 text-gray-700 border border-gray-200'
                         }`}
                         title={isListening ? 'Click to stop dictation' : 'Click to voice type your message'}
                       >
@@ -494,10 +492,10 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                             ? 'Speak now! Your voice is converting into text...'
                             : 'Type your message or click "Voice Type Dictation" to speak into your mic...'
                         }
-                        className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-stone-900 text-sm focus:outline-none transition-all resize-y shadow-xs ${
+                        className={`w-full px-3.5 py-2.5 rounded-xl bg-white border text-gray-900 placeholder:text-gray-500 text-sm focus:outline-none transition-all resize-y shadow-xs ${
                           isListening
                             ? 'border-emerald-500 ring-2 ring-emerald-200'
-                            : 'border-stone-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
+                            : 'border-gray-300 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
                         }`}
                       />
 
@@ -505,7 +503,7 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
                       {isListening && (
                         <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded-md border border-emerald-200">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping" />
-                          <span className="text-[10px] font-mono text-stone-600">Recording...</span>
+                          <span className="text-[10px] font-mono text-gray-600">Recording...</span>
                         </div>
                       )}
                     </div>
@@ -549,10 +547,10 @@ export const Contact: React.FC<ContactProps> = ({ data }) => {
 
                     <a
                       href={getMailtoUrl()}
-                      className="hidden md:inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white border border-stone-200 text-stone-600 hover:text-stone-900 text-xs font-medium transition-all"
+                      className="hidden md:inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white border border-gray-200 text-gray-600 hover:text-black text-xs font-medium transition-all"
                       title="Open default email application"
                     >
-                      <Mail className="w-3.5 h-3.5 text-stone-400" />
+                      <Mail className="w-3.5 h-3.5 text-gray-400" />
                       <span>Mail App</span>
                     </a>
                   </div>

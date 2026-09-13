@@ -51,7 +51,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-stone-900 font-sans selection:bg-emerald-100 selection:text-emerald-900 antialiased">
+    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-emerald-100 selection:text-emerald-900 antialiased">
       {/* Fixed Navbar with Resume and Contact Links */}
       <Navbar
         data={data}

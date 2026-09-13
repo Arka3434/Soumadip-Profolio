@@ -4,7 +4,7 @@ export const defaultPortfolioData: PortfolioData = {
   name: 'Soumadip Das',
   title: 'B.Tech IT Scholar, 1× Hackathon Winner & AI Developer',
   tagline: 'Tejas India Hackathon Winner (Team Lead, SecureFlow AI) | Information Technology scholar at Haldia Institute of Technology (9.16 CGPA) | Research Assistant at NSRI | AI & Full-Stack Developer.',
-  avatarUrl: '/profile.jpg',
+  avatarUrl: '/soumadip.png',
   status: '1× Hackathon Winner • Open for Opportunities',
   bio: [
     "I’m **Soumadip Das**, an Information Technology student and **AI & Software Developer** passionate about building practical, intelligent, and impactful technology solutions. As a **1× Hackathon Winner**, I enjoy turning ideas into working products through problem-solving, software development, AI, and data-driven technologies.",
