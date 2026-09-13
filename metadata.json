@@ -1,0 +1,8 @@
+{
+  "name": "Bhai protfilio",
+  "description": "A modern, responsive personal portfolio website showcasing projects, skills, experience, and contact details.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
