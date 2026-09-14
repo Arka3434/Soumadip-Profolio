@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Play, Pause, Volume2, VolumeX, Maximize2, Film, Sparkles, GraduationCap, Award, Terminal, RotateCcw } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { Play, Pause, Volume2, VolumeX, Maximize2, Film, Sparkles, GraduationCap, Award, Terminal, RotateCcw, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PortfolioData, VideoShowcase } from '../types';
 import { speakText, stopSpeech } from '../utils/voice';
@@ -69,61 +69,129 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
   const [isVoiceMuted, setIsVoiceMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const [customAudioUrl, setCustomAudioUrl] = useState<string | null>(null);
+  const [totalDuration, setTotalDuration] = useState<number>(TOTAL_DURATION);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const rawVideoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const activeChapterRef = useRef<number>(0);
   const chapterStartTimestampRef = useRef<number>(Date.now());
 
+  // Check for authentic voice recording (/voice.mp3, /voice.mpeg) on mount
+  useEffect(() => {
+    let isMounted = true;
+    const candidateFiles = [
+      '/voice.mp3',
+      '/voice.mpeg',
+      '/voice.m4a',
+      '/voice.wav',
+      '/voice.webm',
+    ];
+
+    const checkAudio = async () => {
+      for (const fileUrl of candidateFiles) {
+        try {
+          const res = await fetch(fileUrl, { method: 'HEAD' });
+          if (res.ok && isMounted) {
+            setCustomAudioUrl(fileUrl);
+            const a = new Audio(fileUrl);
+            a.onloadedmetadata = () => {
+              if (a.duration && !isNaN(a.duration) && isMounted) {
+                setTotalDuration(Math.max(30, Math.round(a.duration)));
+              }
+            };
+            return;
+          }
+        } catch {
+          // ignore
+        }
+      }
+    };
+
+    checkAudio();
+
+    return () => {
+      isMounted = false;
+      stopSpeech();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+    };
+  }, []);
+
+  // Compute dynamic chapters based on actual audio duration
+  const dynamicChapters = useMemo(() => {
+    if (!customAudioUrl) return CHAPTERS;
+    const durPerChapter = totalDuration / CHAPTERS.length;
+    return CHAPTERS.map((ch, idx) => ({
+      ...ch,
+      startTime: idx * durPerChapter,
+      endTime: (idx + 1) * durPerChapter,
+      duration: durPerChapter,
+    }));
+  }, [customAudioUrl, totalDuration]);
+
   // Determine active chapter by timestamp
   const getChapterIndexFromTime = useCallback((time: number): number => {
-    for (const ch of CHAPTERS) {
+    for (const ch of dynamicChapters) {
       if (time >= ch.startTime && time < ch.endTime) {
         return ch.index;
       }
     }
-    return CHAPTERS.length - 1;
-  }, []);
+    return dynamicChapters.length - 1;
+  }, [dynamicChapters]);
 
   const activeScene = getChapterIndexFromTime(currentTime);
 
-  // Synchronized playback executor for each chapter
+  // Synchronize playback speed for audio element
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackSpeed;
+    }
+  }, [playbackSpeed]);
+
+  // Synchronize mute state for audio element
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.muted = isVoiceMuted;
+    }
+  }, [isVoiceMuted]);
+
+  // Synchronized playback executor for each chapter (TTS fallback)
   const playChapter = useCallback((chIndex: number, startOffsetWithinChapter = 0) => {
-    if (chIndex >= CHAPTERS.length) {
+    if (chIndex >= dynamicChapters.length) {
       setIsPlaying(false);
-      setCurrentTime(TOTAL_DURATION);
+      setCurrentTime(totalDuration);
       stopSpeech();
       return;
     }
 
     activeChapterRef.current = chIndex;
-    const currentCh = CHAPTERS[chIndex];
+    const currentCh = dynamicChapters[chIndex];
     chapterStartTimestampRef.current = Date.now() - (startOffsetWithinChapter * 1000) / playbackSpeed;
     setCurrentTime(currentCh.startTime + startOffsetWithinChapter);
 
     stopSpeech();
 
-    if (!isVoiceMuted && isInteractiveMode) {
+    if (!isVoiceMuted && isInteractiveMode && !customAudioUrl) {
       speakText(
         currentCh.speechText,
         0.96 * playbackSpeed,
         0.92,
-        // onEnd callback: immediately and smoothly progress to next chapter
         () => {
           if (activeChapterRef.current === chIndex) {
-            if (chIndex < CHAPTERS.length - 1) {
+            if (chIndex < dynamicChapters.length - 1) {
               playChapter(chIndex + 1, 0);
             } else {
               setIsPlaying(false);
-              setCurrentTime(TOTAL_DURATION);
+              setCurrentTime(totalDuration);
             }
           }
         },
-        // onError callback
         (err) => {
           console.warn('Voice narration notice:', err);
         },
-        // onBoundary callback: word boundary sync for accurate timeline tracking
         (charIndex, totalChars) => {
           if (activeChapterRef.current === chIndex && totalChars > 0) {
             const fraction = Math.min(Math.max(charIndex / totalChars, 0), 1);
@@ -133,36 +201,34 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
         }
       );
     }
-  }, [isVoiceMuted, isInteractiveMode, playbackSpeed]);
+  }, [isVoiceMuted, isInteractiveMode, playbackSpeed, customAudioUrl, dynamicChapters, totalDuration]);
 
-  // High precision animation frame timer loop
+  // High precision animation frame timer loop (only needed for synthetic mode or muted mode without audio file)
   useEffect(() => {
-    if (!isPlaying || !isInteractiveMode) return;
+    if (!isPlaying || !isInteractiveMode || customAudioUrl) return;
 
     let animationFrameId: number;
 
     const tick = () => {
       const chIndex = activeChapterRef.current;
-      const ch = CHAPTERS[chIndex];
+      const ch = dynamicChapters[chIndex];
       if (!ch) return;
 
       const elapsedSec = ((Date.now() - chapterStartTimestampRef.current) / 1000) * playbackSpeed;
 
       if (isVoiceMuted) {
-        // Clock-driven chapter progression when voice is muted
         if (elapsedSec >= ch.duration) {
-          if (chIndex < CHAPTERS.length - 1) {
+          if (chIndex < dynamicChapters.length - 1) {
             playChapter(chIndex + 1, 0);
           } else {
             setIsPlaying(false);
-            setCurrentTime(TOTAL_DURATION);
+            setCurrentTime(totalDuration);
             return;
           }
         } else {
           setCurrentTime(ch.startTime + elapsedSec);
         }
       } else {
-        // Soft forward progression capped to chapter boundary while voice narration is active
         const progressTarget = ch.startTime + Math.min(elapsedSec, ch.duration - 0.05);
         setCurrentTime((prev) => Math.max(prev, progressTarget));
       }
@@ -172,12 +238,15 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
 
     animationFrameId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPlaying, isVoiceMuted, isInteractiveMode, playbackSpeed, playChapter]);
+  }, [isPlaying, isVoiceMuted, isInteractiveMode, playbackSpeed, playChapter, customAudioUrl, dynamicChapters, totalDuration]);
 
   // Clean up speech on unmount
   useEffect(() => {
     return () => {
       stopSpeech();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
     };
   }, []);
 
@@ -185,17 +254,53 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
     if (isPlaying) {
       setIsPlaying(false);
       stopSpeech();
+      if (customAudioUrl && audioRef.current) {
+        audioRef.current.pause();
+      }
       if (rawVideoRef.current) rawVideoRef.current.pause();
     } else {
       setIsPlaying(true);
       if (isInteractiveMode) {
-        let chIdx = getChapterIndexFromTime(currentTime);
-        if (currentTime >= TOTAL_DURATION - 0.2) {
-          chIdx = 0;
-          setCurrentTime(0);
+        stopSpeech();
+        if (customAudioUrl) {
+          if (!audioRef.current) {
+            const audioObj = new Audio(customAudioUrl);
+            audioRef.current = audioObj;
+            audioObj.playbackRate = playbackSpeed;
+            audioObj.muted = isVoiceMuted;
+            audioObj.ontimeupdate = () => {
+              if (audioRef.current) {
+                setCurrentTime(audioRef.current.currentTime);
+              }
+            };
+            audioObj.onended = () => {
+              setIsPlaying(false);
+              setCurrentTime(0);
+            };
+          }
+
+          if (currentTime >= totalDuration - 0.5) {
+            audioRef.current.currentTime = 0;
+            setCurrentTime(0);
+          } else {
+            audioRef.current.currentTime = currentTime;
+          }
+
+          audioRef.current.play().catch((err) => {
+            console.warn('Audio play error, fallback to synthetic voice:', err);
+            let chIdx = getChapterIndexFromTime(currentTime);
+            const offset = Math.max(0, currentTime - dynamicChapters[chIdx].startTime);
+            playChapter(chIdx, offset);
+          });
+        } else {
+          let chIdx = getChapterIndexFromTime(currentTime);
+          if (currentTime >= totalDuration - 0.2) {
+            chIdx = 0;
+            setCurrentTime(0);
+          }
+          const offset = Math.max(0, currentTime - dynamicChapters[chIdx].startTime);
+          playChapter(chIdx, offset);
         }
-        const offset = Math.max(0, currentTime - CHAPTERS[chIdx].startTime);
-        playChapter(chIdx, offset);
       } else {
         if (rawVideoRef.current) {
           rawVideoRef.current.play().catch((e) => console.warn('Video play error', e));
@@ -205,17 +310,21 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
   };
 
   const handleSeek = (time: number) => {
-    const clamped = Math.max(0, Math.min(time, TOTAL_DURATION));
+    const clamped = Math.max(0, Math.min(time, totalDuration));
     setCurrentTime(clamped);
-    const chIdx = getChapterIndexFromTime(clamped);
-    const offset = Math.max(0, clamped - CHAPTERS[chIdx].startTime);
-
-    if (isPlaying) {
-      stopSpeech();
-      playChapter(chIdx, offset);
+    if (customAudioUrl && audioRef.current) {
+      audioRef.current.currentTime = clamped;
     } else {
-      activeChapterRef.current = chIdx;
-      stopSpeech();
+      const chIdx = getChapterIndexFromTime(clamped);
+      const offset = Math.max(0, clamped - dynamicChapters[chIdx].startTime);
+
+      if (isPlaying) {
+        stopSpeech();
+        playChapter(chIdx, offset);
+      } else {
+        activeChapterRef.current = chIdx;
+        stopSpeech();
+      }
     }
   };
 
@@ -223,21 +332,30 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
     stopSpeech();
     setCurrentTime(0);
     activeChapterRef.current = 0;
-    if (isPlaying) {
+    if (customAudioUrl && audioRef.current) {
+      audioRef.current.currentTime = 0;
+      if (isPlaying) {
+        audioRef.current.play().catch(() => {});
+      }
+    } else if (isPlaying) {
       playChapter(0, 0);
     }
   };
 
   const toggleMute = () => {
-    if (!isVoiceMuted) {
-      stopSpeech();
-      setIsVoiceMuted(true);
+    const nextMuted = !isVoiceMuted;
+    setIsVoiceMuted(nextMuted);
+    if (customAudioUrl && audioRef.current) {
+      audioRef.current.muted = nextMuted;
     } else {
-      setIsVoiceMuted(false);
-      if (isPlaying && isInteractiveMode) {
-        const chIdx = getChapterIndexFromTime(currentTime);
-        const offset = Math.max(0, currentTime - CHAPTERS[chIdx].startTime);
-        playChapter(chIdx, offset);
+      if (!isVoiceMuted) {
+        stopSpeech();
+      } else {
+        if (isPlaying && isInteractiveMode) {
+          const chIdx = getChapterIndexFromTime(currentTime);
+          const offset = Math.max(0, currentTime - dynamicChapters[chIdx].startTime);
+          playChapter(chIdx, offset);
+        }
       }
     }
   };
@@ -310,7 +428,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                 <div className="absolute top-4 left-5 flex items-center gap-2 z-20">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                   <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-300/90 font-semibold bg-emerald-950/80 px-2.5 py-0.5 rounded-md border border-emerald-800/60">
-                    {CHAPTERS[activeScene]?.label}
+                    {dynamicChapters[activeScene]?.label}
                   </span>
                 </div>
 
@@ -601,7 +719,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
             {isPlaying && isInteractiveMode && !isVoiceMuted && (
               <div className="absolute bottom-16 left-6 right-6 z-20 pointer-events-none flex justify-center">
                 <p className="text-xs sm:text-sm font-medium text-gray-100 bg-black/85 px-4 py-1.5 rounded-full border border-gray-800/80 shadow-lg text-center backdrop-blur-md max-w-2xl animate-fade-in">
-                  "{CHAPTERS[activeScene]?.speechText}"
+                  "{dynamicChapters[activeScene]?.speechText}"
                 </p>
               </div>
             )}
@@ -620,33 +738,33 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                 onClick={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   const pos = (e.clientX - rect.left) / rect.width;
-                  handleSeek(pos * TOTAL_DURATION);
+                  handleSeek(pos * totalDuration);
                 }}
               >
                 {/* Chapter dividers */}
-                {CHAPTERS.map((ch, idx) => (
+                {dynamicChapters.map((ch, idx) => (
                   <div
                     key={idx}
                     className="absolute top-0 bottom-0 w-0.5 bg-black z-10"
-                    style={{ left: `${(ch.startTime / TOTAL_DURATION) * 100}%` }}
+                    style={{ left: `${(ch.startTime / totalDuration) * 100}%` }}
                   />
                 ))}
 
                 {/* Scrubber Progress Bar */}
                 <div
                   className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all"
-                  style={{ width: `${Math.min(100, (currentTime / TOTAL_DURATION) * 100)}%` }}
+                  style={{ width: `${Math.min(100, (currentTime / totalDuration) * 100)}%` }}
                 />
               </div>
 
               <span className="text-[11px] font-mono text-gray-400 w-10 text-right">
-                {formatTime(TOTAL_DURATION)}
+                {formatTime(totalDuration)}
               </span>
             </div>
 
             {/* Chapters Pills */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-              {CHAPTERS.map((ch, idx) => {
+              {dynamicChapters.map((ch, idx) => {
                 const isActive = activeScene === idx;
                 return (
                   <button
@@ -694,15 +812,23 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ showcase, data }) =>
                       ? 'text-red-400 hover:bg-gray-800'
                       : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'
                   }`}
-                  title={isVoiceMuted ? 'Unmute Male Narration' : 'Mute Voice Narration'}
+                  title={isVoiceMuted ? 'Unmute Voice' : 'Mute Voice'}
                 >
                   {isVoiceMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
 
-                <div className="hidden sm:flex items-center gap-1.5 bg-gray-800/80 px-2.5 py-1 rounded-lg text-xs font-mono text-gray-300 border border-gray-700">
-                  <span className="text-[10px] text-gray-400 uppercase">Voice Sync</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                </div>
+                {customAudioUrl ? (
+                  <div className="hidden sm:flex items-center gap-1.5 bg-emerald-950/80 px-2.5 py-1 rounded-lg text-xs font-mono text-emerald-300 border border-emerald-700/60" title="Playing Soumadip's Authentic Voice Recording">
+                    <Check className="w-3 h-3 text-emerald-400" />
+                    <span className="text-[10px] text-emerald-300 font-bold uppercase">Authentic Voice</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  </div>
+                ) : (
+                  <div className="hidden sm:flex items-center gap-1.5 bg-gray-800/80 px-2.5 py-1 rounded-lg text-xs font-mono text-gray-300 border border-gray-700">
+                    <span className="text-[10px] text-gray-400 uppercase">Voice Sync</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
