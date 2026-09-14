@@ -54,24 +54,26 @@ export const VoicePlayer: React.FC<VoicePlayerProps> = ({
         console.warn('Could not read stored voice:', err);
       }
 
-      // 2. Check if a static voice file exists on the server
-      try {
-        const res = await fetch('/voice.webm', { method: 'HEAD' });
-        if (res.ok && isMounted) {
-          setCustomAudioUrl('/voice.webm');
-          return;
-        }
-      } catch {
-        // Static file check ignored
-      }
+      // 2. Check if a static voice file exists in /public (supports mp3, m4a, wav, webm, ogg)
+      const candidateFiles = [
+        '/voice.mp3',
+        '/voice.mpeg',
+        '/voice.m4a',
+        '/voice.wav',
+        '/voice.webm',
+        '/voice.ogg',
+      ];
 
-      try {
-        const resMp3 = await fetch('/voice.mp3', { method: 'HEAD' });
-        if (resMp3.ok && isMounted) {
-          setCustomAudioUrl('/voice.mp3');
+      for (const fileUrl of candidateFiles) {
+        try {
+          const res = await fetch(fileUrl, { method: 'HEAD' });
+          if (res.ok && isMounted) {
+            setCustomAudioUrl(fileUrl);
+            return;
+          }
+        } catch {
+          // File check ignored
         }
-      } catch {
-        // Fallback to speech synthesis
       }
     };
 
